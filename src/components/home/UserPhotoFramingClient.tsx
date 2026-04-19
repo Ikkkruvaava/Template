@@ -60,6 +60,14 @@ const UserPhotoFramingClient: React.FC = () => {
     const [croppedImage, setCroppedImage] = useState<string | null>(null);
     const [aspect, setAspect] = useState<number | undefined>(undefined);
 
+    const sectionRef = useRef<HTMLDivElement>(null);
+
+    const scrollToSection = useCallback(() => {
+        if (sectionRef.current) {
+            sectionRef.current.scrollIntoView({ behavior: "smooth", block: "start" });
+        }
+    }, []);
+
     // Memoized search filtering for speed
     const filteredFrames = useMemo(() => {
         if (!searchQuery.trim()) return frames;
@@ -129,11 +137,13 @@ const UserPhotoFramingClient: React.FC = () => {
                             setAspect(aspectRatio);
                         }
                     }
+                    // Add a small delay to ensure the DOM has updated before scrolling
+                    setTimeout(scrollToSection, 100);
                 }
             }
             urlProcessedRef.current = true;
         }
-    }, [frames]);
+    }, [frames, scrollToSection]);
 
     useEffect(() => {
         localStorage.setItem('favoriteFrames', JSON.stringify(favoriteFrames));
@@ -166,7 +176,9 @@ const UserPhotoFramingClient: React.FC = () => {
         const url = new URL(window.location.href);
         url.searchParams.set('frame', frame._id);
         window.history.pushState({}, '', url);
-    }, []);
+
+        scrollToSection();
+    }, [scrollToSection]);
 
     const handleCopyFrameLink = useCallback((frameId: string, event: MouseEvent<HTMLButtonElement>) => {
         event.stopPropagation();
@@ -475,7 +487,7 @@ const UserPhotoFramingClient: React.FC = () => {
     }
 
     return (
-        <div className="max-w-6xl mx-auto p-4 md:p-6 pb-16 pt-8">
+        <div ref={sectionRef} className="max-w-6xl mx-auto p-4 md:p-6 pb-16 pt-8">
             {currentStep === "select" && (
                 <div className="space-y-16">
                     <div className="relative max-w-xl mx-auto mt-20">
