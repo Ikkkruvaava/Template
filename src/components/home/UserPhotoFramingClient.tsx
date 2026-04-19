@@ -532,9 +532,9 @@ const UserPhotoFramingClient: React.FC = () => {
 
             {currentStep === "upload" && selectedFrame && (
                 <div className="max-w-4xl mx-auto bg-white rounded-[2.5rem] border border-gray-100 shadow-2xl overflow-hidden mt-15">
-                    <div className="bg-[#FDFCF9] p-8 border-b border-gray-50">
-                        <h2 className="text-3xl font-bold text-gray-900">Upload Photo</h2>
-                        <p className="text-gray-500">Choose a photo for <span className="text-brand-green">{selectedFrame.name}</span></p>
+                    <div className="bg-[#FDFCF9] p-6 md:p-8 border-b border-gray-50">
+                        <h2 className="text-2xl md:text-3xl font-bold text-gray-900">Upload Photo</h2>
+                        <p className="text-sm text-gray-500">Choose a photo for <span className="text-brand-green">{selectedFrame?.name || 'your frame'}</span></p>
                     </div>
                     <div className="p-8">
                         <div className="flex flex-col lg:flex-row gap-12">
@@ -549,14 +549,16 @@ const UserPhotoFramingClient: React.FC = () => {
 
                             <div className="w-full lg:w-1/2 lg:order-1">
                                 <div
-                                    className={`border-4 border-dashed rounded-[2rem] p-10 flex flex-col items-center justify-center min-h-[350px] relative transition-all ${isDragOver ? 'border-brand-green bg-emerald-50/50' : 'border-gray-100'}`}
+                                    className={`border-2 md:border-4 border-dashed rounded-2xl md:rounded-[2rem] p-4 md:p-10 flex flex-row md:flex-col items-center justify-center min-h-[80px] md:min-h-[350px] gap-4 md:gap-0 relative transition-all ${isDragOver ? 'border-brand-green bg-emerald-50/50' : 'border-gray-100'}`}
                                     onDragOver={(e) => { e.preventDefault(); setIsDragOver(true); }}
                                     onDragLeave={() => setIsDragOver(false)}
                                     onDrop={handleDrop}
                                 >
-                                    <Upload className="h-10 w-10 text-brand-green mb-4" />
-                                    <p className="text-lg font-bold text-gray-900">Drop photo here</p>
-                                    <p className="text-sm text-gray-400">or <span className="text-brand-green cursor-pointer">click to browse</span></p>
+                                    <Upload className="h-6 w-6 md:h-10 md:w-10 text-brand-green md:mb-4" />
+                                    <div className="text-left md:text-center">
+                                        <p className="text-sm md:text-lg font-bold text-gray-900">Upload Photo</p>
+                                        <p className="text-[10px] md:text-sm text-gray-400">PNG, JPG or JPEG</p>
+                                    </div>
                                     <input type="file" accept="image/*" onChange={handleImageUpload} className="absolute inset-0 opacity-0 cursor-pointer" />
                                 </div>
 
@@ -582,16 +584,16 @@ const UserPhotoFramingClient: React.FC = () => {
                             </div>
                         </div>
 
-                        <div className="flex justify-between mt-12">
-                            <button onClick={() => setCurrentStep("select")} className="px-8 py-3 bg-white border border-gray-100 rounded-full font-bold flex items-center">
-                                <ChevronLeft className="h-5 w-5 mr-2" /> Back
+                        <div className="flex justify-between mt-10 md:mt-12">
+                            <button onClick={() => setCurrentStep("select")} className="px-5 md:px-8 py-2 md:py-3 bg-white border border-gray-100 rounded-full font-bold flex items-center text-sm md:text-base">
+                                <ChevronLeft className="h-4 w-4 md:h-5 md:w-5 mr-1 md:mr-2" /> Back
                             </button>
                             <button
                                 onClick={() => setCurrentStep("crop")}
                                 disabled={!userImage}
-                                className={`px-8 py-3 rounded-full font-bold transition-all flex items-center ${userImage ? 'bg-brand-green text-white' : 'bg-gray-200 text-gray-400'}`}
+                                className={`px-5 md:px-8 py-2 md:py-3 rounded-full font-bold transition-all flex items-center text-sm md:text-base ${userImage ? 'bg-brand-green text-white shadow-lg' : 'bg-gray-200 text-gray-400'}`}
                             >
-                                Continue <ArrowRight className="h-5 w-5 ml-2" />
+                                Continue <ArrowRight className="h-4 w-4 md:h-5 md:w-5 ml-1 md:mr-2" />
                             </button>
                         </div>
                     </div>
@@ -626,10 +628,10 @@ const UserPhotoFramingClient: React.FC = () => {
                 </div>
             )}
 
-            {currentStep === "preview" && selectedFrame && (selectedFrame.hasImageArea === false || croppedImage) && (
-                <div className="max-w-4xl mx-auto bg-white rounded-[2.5rem] border border-gray-100 shadow-2xl overflow-hidden mt-15">
-                    <div className="bg-[#FDFCF9] p-8 border-b">
-                        <h2 className="text-3xl font-bold text-gray-900">Preview</h2>
+             {currentStep === "preview" && selectedFrame && (selectedFrame.hasImageArea === false || croppedImage) && (
+                <div className="max-w-4xl mx-auto bg-white rounded-3xl md:rounded-[2.5rem] border border-gray-100 shadow-2xl overflow-hidden mt-15">
+                    <div className="bg-[#FDFCF9] p-6 md:p-8 border-b">
+                        <h2 className="text-2xl md:text-3xl font-bold text-gray-900">Preview</h2>
                     </div>
                     <div className="p-6">
                         <div className="bg-gray-50 rounded-lg p-4 mb-6 flex items-center justify-center relative">
@@ -650,17 +652,17 @@ const UserPhotoFramingClient: React.FC = () => {
                                             setUserTexts(newTexts);
                                         }}
                                         placeholder={ts.label || "Enter text here..."}
-                                        className="w-full px-6 py-4 bg-[#FDFCF9] border-0 rounded-2xl shadow-inner focus:ring-2 focus:ring-brand-green transition-all"
+                                        className="w-full px-4 md:px-6 py-3 md:py-4 bg-[#FDFCF9] border-0 rounded-2xl shadow-inner focus:ring-2 focus:ring-brand-green transition-all"
                                     />
                                 </div>
                             ))}
                         </div>
-                        <div className="flex justify-between mt-8">
-                            <button onClick={() => setCurrentStep(selectedFrame.hasImageArea === false ? "select" : "crop")} className="px-4 py-3 bg-white border border-gray-100 rounded-full font-bold flex items-center">
-                                <ChevronLeft className="h-5 w-5 mr-2" /> Back
+                        <div className="flex justify-between mt-6 md:mt-8">
+                            <button onClick={() => setCurrentStep(selectedFrame.hasImageArea === false ? "select" : "crop")} className="px-5 md:px-8 py-2 md:py-3 bg-white border border-gray-100 rounded-full font-bold flex items-center text-sm md:text-base">
+                                <ChevronLeft className="h-4 w-4 md:h-5 md:w-5 mr-1 md:mr-2" /> Back
                             </button>
-                            <button onClick={handleGenerateImage} className="px-4 py-3 bg-brand-green text-white rounded-full font-bold shadow-lg flex items-center" disabled={isProcessing}>
-                                {isProcessing ? "Processing..." : "Generate"}<ArrowRight className="h-5 w-5 ml-2" />
+                            <button onClick={handleGenerateImage} className="px-5 md:px-8 py-2 md:py-3 bg-brand-green text-white rounded-full font-bold shadow-lg flex items-center text-sm md:text-base" disabled={isProcessing}>
+                                {isProcessing ? "Processing..." : "Generate"}<ArrowRight className="h-4 w-4 md:h-5 md:w-5 ml-1 md:ml-2" />
                             </button>
                         </div>
                     </div>
