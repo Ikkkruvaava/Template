@@ -6,10 +6,66 @@ import FeaturesGrid from "@/components/home/FeaturesGrid";
 import HowItWorks from "@/components/home/HowItWorks";
 import UserPhotoFramingClient from "@/components/home/UserPhotoFramingClient";
 
-export const metadata = {
-  title: "ECLYZE Frames | Premium Photo Framing System",
-  description: "A perfect framing system working like an organiser. Create custom community frames with smooth rendering and easy sharing.",
-};
+import { getFrameById } from "@/lib/localDb";
+
+export async function generateMetadata({
+  searchParams,
+}: {
+  searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
+}) {
+  const params = await searchParams;
+  const frameId = typeof params.frame === 'string' ? params.frame : undefined;
+
+  if (frameId) {
+    try {
+      const frame = await getFrameById(frameId);
+      if (frame) {
+        return {
+          title: `${frame.name} | ECLYZE Frames`,
+          description: `Create your custom framed photo with the ${frame.name} collection. High-quality rendering and easy sharing.`,
+          openGraph: {
+            title: `${frame.name} - ECLYZE Frames`,
+            description: `Click to create your custom framed photo using the ${frame.name} template!`,
+            images: [
+              {
+                url: frame.imageUrl,
+                width: frame.dimensions.width || 1200,
+                height: frame.dimensions.height || 630,
+                alt: frame.name,
+              },
+            ],
+            type: "website",
+          },
+          twitter: {
+            card: "summary_large_image",
+            title: `${frame.name} - ECLYZE Frames`,
+            description: `Click to create your custom framed photo using the ${frame.name} template!`,
+            images: [frame.imageUrl],
+          },
+        };
+      }
+    } catch (error) {
+      console.error("Error fetching metadata for frame:", error);
+    }
+  }
+
+  return {
+    title: "ECLYZE Frames | Premium Photo Framing System",
+    description: "A perfect framing system working like an organiser. Create custom community frames with smooth rendering and easy sharing.",
+    openGraph: {
+      title: "ECLYZE Frames | Premium Photo Framing System",
+      description: "A perfect framing system working like an organiser. Create custom community frames with smooth rendering and easy sharing.",
+      images: [
+        {
+          url: "/api/og", // Fallback to a default OG image if you have one, or just a common asset
+          width: 1200,
+          height: 630,
+        },
+      ],
+    },
+  };
+}
+
 
 const UserPhotoFraming = () => {
   return (
