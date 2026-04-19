@@ -512,7 +512,7 @@ export default function CreateFramePage() {
   };
 
   const removeTextSettings = (index: number) => {
-    if (editorData.textSettings.length <= 1) return;
+    // No longer requiring at least 1 text setting
     setEditorData(prev => ({
       ...prev,
       textSettings: prev.textSettings.filter((_, i) => i !== index)

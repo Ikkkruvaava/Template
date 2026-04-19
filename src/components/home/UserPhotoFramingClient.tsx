@@ -562,25 +562,27 @@ const UserPhotoFramingClient: React.FC = () => {
                                     <input type="file" accept="image/*" onChange={handleImageUpload} className="absolute inset-0 opacity-0 cursor-pointer" />
                                 </div>
 
-                                <div className="mt-8 space-y-6">
-                                    <h4 className="text-lg font-bold text-gray-900">Personalize</h4>
-                                    {selectedFrame.textSettings.map((ts, index) => (
-                                        <div key={index} className="space-y-2">
-                                            {ts.label && <label className="block text-sm font-bold text-gray-700 ml-1">{ts.label}</label>}
-                                            <input
-                                                type="text"
-                                                value={userTexts[index] || ''}
-                                                onChange={(e) => {
-                                                    const newTexts = [...userTexts];
-                                                    newTexts[index] = e.target.value;
-                                                    setUserTexts(newTexts);
-                                                }}
-                                                placeholder={ts.label || "Enter text here..."}
-                                                className="w-full px-6 py-4 bg-[#FDFCF9] border-0 rounded-2xl shadow-inner focus:ring-2 focus:ring-brand-green transition-all"
-                                            />
-                                        </div>
-                                    ))}
-                                </div>
+                                 {selectedFrame.textSettings.length > 0 && (
+                                    <div className="mt-8 space-y-6">
+                                        <h4 className="text-lg font-bold text-gray-900">Personalize</h4>
+                                        {selectedFrame.textSettings.map((ts, index) => (
+                                            <div key={index} className="space-y-2">
+                                                {ts.label && <label className="block text-sm font-bold text-gray-700 ml-1">{ts.label}</label>}
+                                                <input
+                                                    type="text"
+                                                    value={userTexts[index] || ''}
+                                                    onChange={(e) => {
+                                                        const newTexts = [...userTexts];
+                                                        newTexts[index] = e.target.value;
+                                                        setUserTexts(newTexts);
+                                                    }}
+                                                    placeholder={ts.label || "Enter text here..."}
+                                                    className="w-full px-6 py-4 bg-[#FDFCF9] border-0 rounded-2xl shadow-inner focus:ring-2 focus:ring-brand-green transition-all"
+                                                />
+                                            </div>
+                                        ))}
+                                    </div>
+                                )}
                             </div>
                         </div>
 
@@ -638,25 +640,27 @@ const UserPhotoFramingClient: React.FC = () => {
                             {isLoading && <div className="absolute inset-0 bg-white/80 flex items-center justify-center z-10"><BlinkBlur color="#32cd32" size="medium" /></div>}
                             <canvas ref={canvasRef} className="rounded-md shadow-sm" />
                         </div>
-                        <div className="my-4 space-y-3">
-                            <h4 className="text-lg font-bold text-gray-900">Personalize</h4>
-                            {selectedFrame.textSettings.map((ts, index) => (
-                                <div key={index} className="space-y-2">
-                                    {ts.label && <label className="block text-sm font-bold text-gray-700 ml-1">{ts.label}</label>}
-                                    <input
-                                        type="text"
-                                        value={userTexts[index] || ''}
-                                        onChange={(e) => {
-                                            const newTexts = [...userTexts];
-                                            newTexts[index] = e.target.value;
-                                            setUserTexts(newTexts);
-                                        }}
-                                        placeholder={ts.label || "Enter text here..."}
-                                        className="w-full px-4 md:px-6 py-3 md:py-4 bg-[#FDFCF9] border-0 rounded-2xl shadow-inner focus:ring-2 focus:ring-brand-green transition-all"
-                                    />
-                                </div>
-                            ))}
-                        </div>
+                         {selectedFrame.textSettings.length > 0 && (
+                            <div className="my-4 space-y-3">
+                                <h4 className="text-lg font-bold text-gray-900">Personalize</h4>
+                                {selectedFrame.textSettings.map((ts, index) => (
+                                    <div key={index} className="space-y-2">
+                                        {ts.label && <label className="block text-sm font-bold text-gray-700 ml-1">{ts.label}</label>}
+                                        <input
+                                            type="text"
+                                            value={userTexts[index] || ''}
+                                            onChange={(e) => {
+                                                const newTexts = [...userTexts];
+                                                newTexts[index] = e.target.value;
+                                                setUserTexts(newTexts);
+                                            }}
+                                            placeholder={ts.label || "Enter text here..."}
+                                            className="w-full px-4 md:px-6 py-3 md:py-4 bg-[#FDFCF9] border-0 rounded-2xl shadow-inner focus:ring-2 focus:ring-brand-green transition-all"
+                                        />
+                                    </div>
+                                ))}
+                            </div>
+                        )}
                         <div className="flex justify-between mt-6 md:mt-8">
                             <button onClick={() => setCurrentStep(selectedFrame.hasImageArea === false ? "select" : "crop")} className="px-5 md:px-8 py-2 md:py-3 bg-white border border-gray-100 rounded-full font-bold flex items-center text-sm md:text-base">
                                 <ChevronLeft className="h-4 w-4 md:h-5 md:w-5 mr-1 md:mr-2" /> Back

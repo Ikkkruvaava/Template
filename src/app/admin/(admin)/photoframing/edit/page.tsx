@@ -266,7 +266,7 @@ function EditFrameWrapper() {
       },
       hasImageArea: frame.hasImageArea !== false,
       placementCoords: frame.placementCoords || null,
-      textSettings: textArr.length > 0 ? textArr : [{ x: 150, y: 450, width: 300, height: 60, font: "Arial", size: 32, color: "#ffffff" }],
+      textSettings: textArr,
     });
     setActiveTextIndex(0);
   };
@@ -513,7 +513,7 @@ function EditFrameWrapper() {
   };
 
   const removeTextSettings = (index: number) => {
-    if (editorData.textSettings.length <= 1) return;
+    // No longer requiring at least 1 text setting
     setEditorData(prev => ({ ...prev, textSettings: prev.textSettings.filter((_, i) => i !== index) }));
     if (activeTextIndex >= index) setActiveTextIndex(Math.max(0, activeTextIndex - 1));
   };
